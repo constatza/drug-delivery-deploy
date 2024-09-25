@@ -1,0 +1,35 @@
+<MSolve4Korali version="1.1">
+    <!--
+    !!! All Paths are relative to the location of this configuration file !!!
+    -->
+    <Paths>
+        <!-- OutputDir is the directory where the output files will be written -->
+        <OutputDir>../Output/12EquationsSmall/</OutputDir>
+    </Paths>
+    <Mesh>
+        <MeshFile>../Input/RealisticProblemTetMeshUPDATED.mphtxt</MeshFile>
+        <InitialConditionsFile>../Input/t_ICs_realisticMesh_UPDATEDModel.csv</InitialConditionsFile>
+    </Mesh>
+    <Physics type="TumorGrowthFull" isCSparse="false" />
+    <Parameters>
+        <keepLogs>false</keepLogs>
+        <includeImmuno>true</includeImmuno>
+        <useSingleImmunoTherapy>false</useSingleImmunoTherapy>
+        <miTumor>22.44</miTumor>
+        <k_th_tumor>7.5231E-11</k_th_tumor>
+        <pv>4</pv>
+        <Sv>7E3</Sv>
+        <k1>3.989E-6</k1>
+        <Lp>3.5714E-7</Lp>
+        <sf>0.13427</sf>
+        <Per>2.69E-8</Per>
+        <K_T>1.2731E-5</K_T>
+        <k_on>7.9514E-5</k_on>
+        <kd>36029</kd>
+        <!--- location1 is ignored unless includeImmuno is true -->
+        <location1>7.01</location1>
+        <!-- location2 and location3 are ignored unless useSingleImmunoTherapy is false -->
+        <location2>10.01</location2>
+        <location3>14.01</location3>
+    </Parameters>
+</MSolve4Korali>

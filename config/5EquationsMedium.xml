@@ -1,0 +1,21 @@
+<MSolve4Korali version="1.1">
+    <!--
+    !!! All Paths are relative to the location of this configuration file !!!
+    -->
+    <Paths>
+        <!--- OutputDir is the directory where the output files will be written -->
+        <OutputDir>../Output/5EquationsMedium/</OutputDir>
+    </Paths>
+	<Mesh>
+        <MeshFile>../Input/RealisticMeshWithTetElements.mphtxt</MeshFile>
+        <InitialConditionsFile>../Input/RealisticMeshWithTetElements_t_nodes_initialCs.csv</InitialConditionsFile>
+	</Mesh>
+	<Physics type="TumorGrowthFull" isCSparse="false" />
+	<Parameters>
+        <use5Equations>true</use5Equations>
+        <miTumor>22.44</miTumor>
+        <k_th_tumor>7.5231E-11</k_th_tumor>
+        <Sv>7E3</Sv>
+	</Parameters>
+</MSolve4Korali>
+
