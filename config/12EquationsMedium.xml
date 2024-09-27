@@ -14,7 +14,7 @@
 	<Parameters>
         <keepLogs>false</keepLogs>
         <includeImmuno>true</includeImmuno>
-        <useSingleImmunoTherapy>true</useSingleImmunoTherapy>
+        <useSingleImmunoTherapy>false</useSingleImmunoTherapy>
         <miTumor>22.44</miTumor>
         <k_th_tumor>7.5231E-11</k_th_tumor>
         <pv>4</pv>

@@ -1,8 +1,10 @@
 import random
+import argparse
 import xml.etree.ElementTree as et
 from pathlib import Path
 
 import yaml
+from slurm import generate_array_script
 
 
 def load_distributions_config(yaml_file):
@@ -51,16 +53,16 @@ def sample_params(ranges):
     return {param: sample_param(info) for param, info in ranges.items()}
 
 
-def update_parameters(input_file, output_file, new_params):
+def update_parameters(template_file, output_file, new_params):
     """
     Update the parameters in the XML configuration file with new sampled values.
 
     Args:
-        input_file (Path): Path to the input XML configuration template.
+        template_file (Path): Path to the input XML configuration template.
         output_file (Path): Path to the output XML configuration file.
         new_params (dict): A dictionary with new parameter values.
     """
-    tree = et.parse(input_file)
+    tree = et.parse(template_file)
     root = tree.getroot()
 
     parameters = root.find('Parameters')
@@ -96,37 +98,60 @@ def prepare_config_dir(input_file):
     return config_dir
 
 
-def generate_configs(template_file, stochastic_params):
+def generate_configs(experiment_name, stochastic_params, num_samples, suffix=".xml"):
     """
     Generate multiple configuration files with random parameters.
 
     Args:
-        template_file (Path): Path to the input XML configuration template.
+        experiment_name (Path): Path to the input XML configuration template.
         stochastic_params (dict): A dictionary with parameter ranges.
     """
-    config_dir = prepare_config_dir(template_file)
-    num_samples = int(stochastic_params.pop('num_samples'))
-    # num_of_digits = len(str(num_of_samples))
+    config_dir = prepare_config_dir(experiment_name)
     for i in range(num_samples):
         new_params = sample_params(stochastic_params)
-        new_name = f"{template_file.stem}_{i:d}{template_file.suffix}"
+        new_name = f"{experiment_name.stem}_{i:d}{suffix}"
         output_file = config_dir / new_name
-        update_parameters(template_file, output_file, new_params)
+        update_parameters(experiment_name, output_file, new_params)
 
 
 def main():
-    import argparse
     parser = argparse.ArgumentParser(description='Generate configuration files with random parameters')
     parser.add_argument('distribution', type=Path, help='YAML file with parameter ranges')
-    parser.add_argument('--template', type=Path, help='Input configuration template',
-                        default='../config/5EquationsSmall.xml')
 
     args = parser.parse_args()
 
-    distributions_parameters = load_distributions_config(args.distribution)
+    distribution_params = load_distributions_config(args.distribution)
+    num_samples = int(distribution_params.pop('num_samples'))
 
-    generate_configs(args.template, distributions_parameters)
+    experiment_name = args.distribution.stem
 
+    generate_configs(args.distribution.with_suffix(".xml"), distribution_params, num_samples)
+
+def main():
+    parser = argparse.ArgumentParser(description='Generate configuration files with random parameters')
+    parser.add_argument('distribution', type=Path, help='YAML file with parameter ranges')
+
+    args = parser.parse_args()
+
+    experiment_name = args.distribution.stem
+    params = load_distributions_config(args.distribution)
+    slurm_params = params.pop('slurm')
+    stochastic_params = params.pop('stochastic')
+
+    num_samples = int(stochastic_params.pop('num_samples'))
+
+    generate_configs(args.distribution.with_suffix(".xml"), stochastic_params, num_samples)
+
+    slurm_script = generate_array_script(experiment_name, num_samples, **slurm_params)
+
+    slurm_dir = Path("slurm")
+    slurm_dir.mkdir(exist_ok=True, parents=True)
+    slurm_file = slurm_dir / f"{experiment_name}.sh"
+    with open(slurm_file, "w") as f:
+        f.write(slurm_script)
+
+    print(slurm_file)
+    return slurm_file
 
 if __name__ == "__main__":
     main()

@@ -7,4 +7,6 @@ rsync -av ../DrugDeliveryModel/Input/ ./Input
 rsync -avzP --delete \
   --exclude '.idea/' \
   --exclude 'scripts/myenv/'\
+  --exclude 'scripts/slurm/'\
+  --exclude 'Output/'\
   . meluxina:~/apps/drug-delivery-model

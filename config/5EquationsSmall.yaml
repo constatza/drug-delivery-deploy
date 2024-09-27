@@ -1,0 +1,19 @@
+name: 5EquationsSmall
+
+slurm:
+  num_cores: 64
+  qos: default
+  walltime: 00:30:00
+  partition: cpu
+
+stochastic:
+  num_samples: 10
+  miTumor:
+    distribution: gauss
+    params: [22.00, 2.00]  # mean, stddev
+  k_th_tumor:
+    distribution: gauss
+    params: [ 8.0000E-11, 1.0000E-11]  # mean, stddev
+  Sv:
+    distribution: uniform
+    params: [6000, 8000]

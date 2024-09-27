@@ -1,0 +1,18 @@
+
+slurm:
+  num_cores: 256
+  qos: default
+  walltime: 06:00:00
+  partition: cpu
+
+stochastic:
+  num_samples: 50
+  location1:
+    distribution: uniform
+    params: [5, 8]
+  location2:
+      distribution: uniform
+      params: [8, 11]
+  location3:
+      distribution: uniform
+      params: [11, 14]
