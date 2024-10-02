@@ -29,7 +29,7 @@ echo "ID: $array_job_id" >> $OUTPUT_FILE
 echo "Time: $(date)" >> $OUTPUT_FILE
 
 # Submit the monitoring job with a dependency on the array job
-monitor_job_output=$(sbatch --dependency=afterany:$array_job_id ./slurm/get-times.sh $array_job_id)
+monitor_job_output=$(sbatch --dependency=afterany:$array_job_id ./slurm/get-times.sh $array_job_id $OUTPUTDIR)
 monitor_job_ID=$(echo "$monitor_job_output" | awk '{print $4}')
 
 echo "Monitoring Job ID: $monitor_job_ID" >> $OUTPUT_FILE
