@@ -1,13 +1,11 @@
-name: 5EquationsSmall
-
 slurm:
   num_cores: 256
   qos: default
-  walltime: 00:18:00
+  walltime: 02:50:00
   partition: cpu
 
 stochastic:
-  num_samples: 99
+  num_samples: 16
   miTumor:
     distribution: gauss
     params: [22.00, 2.00]  # mean, stddev

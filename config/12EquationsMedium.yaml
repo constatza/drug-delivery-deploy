@@ -2,11 +2,11 @@
 slurm:
   num_cores: 256
   qos: default
-  walltime: 06:00:00
+  walltime: 12:00:00
   partition: cpu
 
 stochastic:
-  num_samples: 50
+  num_samples: 10
   location1:
     distribution: uniform
     params: [5, 8]

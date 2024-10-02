@@ -6,6 +6,7 @@ def generate_array_script(job_name,
                           partition="cpu",
                           num_cores=64,
                           account="p200503",
+                          initial_job_id=0
                           ):
     script_content = f"""#!/bin/bash
 #SBATCH --job-name={job_name} # Job name
@@ -16,7 +17,7 @@ def generate_array_script(job_name,
 #SBATCH --cpus-per-task={num_cores} # Number of CPU cores per task
 #SBATCH --time={walltime} # Time limit hrs:min:sec
 #SBATCH --partition={partition}  # Specify the partition/queue
-#SBATCH --array=0-{num_array_jobs-1:d}  # Job array for {num_array_jobs} different parameter sets (Monte Carlo instances)
+#SBATCH --array={initial_job_id:d}-{initial_job_id+num_array_jobs-1:d}  # Job array for {num_array_jobs} different parameter sets (Monte Carlo instances)
 #SBATCH --account={account} # Account
 
 CONFIGPATH=../config-auto-generated/$SLURM_JOB_NAME
