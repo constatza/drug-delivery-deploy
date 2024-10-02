@@ -21,6 +21,6 @@ sleep 10
 total_user_cpu=$(sacct -j "$array_job_id" --format=JobID,JobName,Start,End,UserCPU,SystemCPU,Elapsed,TotalCPU,State --parsable2)
 efficiency=$(sacct -j "$array_job_id" --format=JobID,JobName,NNodes,ReqCPUS,AllocCPUS,MaxRSS,MaxVMSize,MaxDiskRead,MaxDiskWrite,State --parsable2)
 
-echo "$total_user_cpu" >$OUTPUTDIR/cpu_times_"$array_job_id".csv
-echo "$efficiency" >$OUTPUTDIR/efficiency_"$array_job_id".csv
-echo "Array job $array_job_id is documented in ."
+echo "$total_user_cpu" >$OUTPUTDIR/cpu_times.csv
+echo "$efficiency" >$OUTPUTDIR/allocation.csv
+echo "Array job $array_job_id is documented in $OUTPUTDIR/{cpu_times.csv,allocation.csv}"
